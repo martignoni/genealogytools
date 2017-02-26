@@ -40,7 +40,7 @@ $outputfile = $currentdir . "/scrambled-gedcom.ged";
 // see http://stackoverflow.com/questions/6407983/utf-8-in-php-regular-expressions
 $familyNamePattern = "#^\d NAME [\p{L} \-,']*/([\p{L} \-,']+)/#u";
 $firstNamePattern = "#^\d NAME ([\p{L} \-,']+)( /)*#u";
-$aliasPattern = "#^\d ALIA ([\p{L} \-,']+)#u";
+$akaPattern = "#^\d _AKA ([\p{L} \-,']+)#u";
 $placeNamePattern = "#^\d _?PLAC (\d+ )?([\p{L} \-',]+)#u";
 
 $names = array();
@@ -54,7 +54,7 @@ if ($filehandler) {
         if (preg_match($firstNamePattern, $line, $matches)) { // first name found
             $names[] = preg_split("/[\(\)\s,]+/", $matches[1]);
         }
-        if (preg_match($aliasPattern, $line, $matches)) { // alias name found
+        if (preg_match($akaPattern, $line, $matches)) { // alternate name found
             $names[] = preg_split("/[\(\)\s,]+/", $matches[1]);
         }
         if (preg_match($placeNamePattern, $line, $matches)) { // place name found
