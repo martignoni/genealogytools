@@ -94,13 +94,13 @@ foreach ($names as $name) {
     $scramblednames[] = $scrambledname;
 }
 
-// dictionnary of names and corresponding scrambled names
-$dictionnary = array_combine($names, $scramblednames);
-// print_r($dictionnary); exit;
+// dictionary of names and corresponding scrambled names
+$dictionary = array_combine($names, $scramblednames);
+// print_r($dictionary); exit;
 
 // replace names with scrambled names in input file
 $filecontents = file_get_contents($inputfile);
-foreach ($dictionnary as $name => $scrambledname) {
+foreach ($dictionary as $name => $scrambledname) {
     $filecontents = str_replace($name, $scrambledname, $filecontents);
 }
 // print($filecontents); exit;
