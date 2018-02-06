@@ -34,8 +34,9 @@ $iv = openssl_random_pseudo_bytes(16);
 
 
 $currentdir = dirname(__FILE__);
-$inputfile = $currentdir . "/original-gedcom.ged";
-$outputfile = $currentdir . "/scrambled-gedcom.ged";
+$inputfile = $currentdir . "/gedcom.ged";
+$outputfile = pathinfo($inputfile, PATHINFO_FILENAME) . "-scrambled." .
+    pathinfo($inputfile, PATHINFO_EXTENSION);
 
 // see http://stackoverflow.com/questions/6407983/utf-8-in-php-regular-expressions
 $familyNamePattern = "#^\d NAME [\p{L} \-,']*/([\p{L} \-,']+)/#u";
