@@ -102,7 +102,8 @@ $dictionary = array_combine($names, $scramblednames);
 // replace names with scrambled names in input file
 $filecontents = file_get_contents($inputfile);
 foreach ($dictionary as $name => $scrambledname) {
-    $filecontents = str_replace($name, $scrambledname, $filecontents);
+    $pattern = '/\b' . $name . '\b/u';
+    $filecontents = preg_replace($pattern, $scrambledname, $filecontents);
 }
 // print($filecontents); exit;
 file_put_contents($outputfile, $filecontents);
