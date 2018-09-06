@@ -43,6 +43,7 @@ $familyNamePattern = "#^\d NAME [\p{L} \-,']*/([\p{L} \-,']+)/#u";
 $firstNamePattern = "#^\d NAME ([\p{L} \-,']+)( /)*#u";
 $akaPattern = "#^\d _AKA ([\p{L} \-,']+)#u";
 $placeNamePattern = "#^\d _?PLAC (\d+ )?([\p{L} \-',]+)#u";
+$urlPattern = "#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#";
 
 $names = array();
 // read input file line by line, check for pattern matching and populate $names array
@@ -60,6 +61,9 @@ if ($filehandler) {
         }
         if (preg_match($placeNamePattern, $line, $matches)) { // place name found
             $names[] = preg_split("/[\(\),]+\s?/", $matches[2]);
+        }
+        if (preg_match($urlPattern, $line, $matches)) { // URL found
+            $names[] = $matches[0];
         }
     }
     if (!feof($filehandler)) {
@@ -102,7 +106,7 @@ $dictionary = array_combine($names, $scramblednames);
 // replace names with scrambled names in input file
 $filecontents = file_get_contents($inputfile);
 foreach ($dictionary as $name => $scrambledname) {
-    $pattern = '/\b' . $name . '\b/u';
+    $pattern = '@\b' . $name . '\b@u';
     $filecontents = preg_replace($pattern, $scrambledname, $filecontents);
 }
 // print($filecontents); exit;
