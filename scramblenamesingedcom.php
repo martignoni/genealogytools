@@ -43,7 +43,7 @@ $familyNamePattern = "#^\d NAME [\p{L} \-,']*/([\p{L} \-,']+)/#u";
 $firstNamePattern = "#^\d NAME ([\p{L} \-,']+)( /)*#u";
 $akaPattern = "#^\d _AKA ([\p{L} \-,']+)#u";
 $placeNamePattern = "#^\d _?PLAC (\d+ )?([\p{L} \-',]+)#u";
-$urlPattern = "#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#";
+$urlPattern = "#(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))#";
 
 $names = array();
 // read input file line by line, check for pattern matching and populate $names array
@@ -62,8 +62,10 @@ if ($filehandler) {
         if (preg_match($placeNamePattern, $line, $matches)) { // place name found
             $names[] = preg_split("/[\(\),]+\s?/", $matches[2]);
         }
-        if (preg_match($urlPattern, $line, $matches)) { // URL found
-            $names[] = $matches[0];
+        if (preg_match_all($urlPattern, $line, $matches)) { // URL found
+            foreach ($matches[0] as $url) {
+                $names[] = $url;
+            }
         }
     }
     if (!feof($filehandler)) {
